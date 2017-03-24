@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Profile Management</string>
+
+    <!---->
+    <string name="txt_semester">Semester: </string>
+    <!---->
+    <string name="activity_title_view_students">List student</string>
+</resources>
