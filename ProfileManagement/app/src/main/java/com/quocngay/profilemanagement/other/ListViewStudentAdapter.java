@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.quocngay.profilemanagement.R;
+import com.quocngay.profilemanagement.activity.ProfileActivity;
 import com.quocngay.profilemanagement.activity.ViewStudentOfClassActivity;
 import com.quocngay.profilemanagement.model.StudentOfClassModel;
 
@@ -75,9 +76,12 @@ public class ListViewStudentAdapter extends BaseAdapter {
             holder.tvEmail = (TextView) convertView.findViewById(R.id.txt_email);
             convertView.setTag(holder);
 
-            holder.tvPhone.setOnClickListener( new View.OnClickListener() {
+            convertView.setOnClickListener( new View.OnClickListener() {
                 public void onClick(View v) {
-                    //go to info detail
+                    Intent intent = new Intent(context, ProfileActivity.class);
+                    intent.putExtra("accountIdView",list.get(position).getId());
+                    intent.putExtra("accountIdRoot",0);
+                    context.startActivity(intent);
                 }
             });
         }

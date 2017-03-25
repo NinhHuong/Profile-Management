@@ -1,12 +1,20 @@
 package com.quocngay.profilemanagement.activity;
 
-import android.accounts.Account;
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Base64;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.quocngay.profilemanagement.DBContext;
 import com.quocngay.profilemanagement.R;
@@ -19,20 +27,50 @@ import com.quocngay.profilemanagement.model.SubjectOfClassModel;
 import com.quocngay.profilemanagement.other.Constanst;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends Activity implements View.OnClickListener {
+
+    private Button btnLogin;
+    private EditText edtAccount, edtPassword;
+
     private DBContext dbContext;
+    private List<AccountModel> listAccount;
+    private int accountId = 0;
+
+    private NotificationCompat.Builder notBuilder;
+
+    private static final int MY_NOTIFICATION_ID = 12345;
+
+    private static final int MY_REQUEST_CODE = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
+
+        this.notBuilder = new NotificationCompat.Builder(this);
+        this.notBuilder.setAutoCancel(true);
+
+        init();
+        if(dbContext.getAllAccountModel().size()==0){
+            addSampleData();
+        }
+    }
+
+    private void init() {
+        //link
+        btnLogin = (Button) findViewById(R.id.btn_login);
+        edtAccount = (EditText) findViewById(R.id.edt_account);
+        edtPassword = (EditText) findViewById(R.id.edt_password);
+
+        //event
+        btnLogin.setOnClickListener(this);
+
         dbContext = DBContext.getInst();
-
-        addSampleData();
-
-        Intent intent = new Intent(this, OngoingClassActivity.class);
-        startActivity(intent);
+        listAccount = new ArrayList<>();
     }
 
     //create sample
@@ -105,5 +143,88 @@ public class MainActivity extends AppCompatActivity {
             e.getMessage();
             return null;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.btn_login:
+                onClickLogin();
+                break;
+            default:
+        }
+    }
+
+    private void onClickLogin() {
+        String account = edtAccount.getText().toString();
+        String password = edtPassword.getText().toString();
+        if (!account.isEmpty() && !password.isEmpty()) {
+            if (checkLogin()) {
+                Intent intent = new Intent(this, OngoingClassActivity.class);
+                //intent.putExtra("accountIdView",accountId);
+                intent.putExtra("accountIdRoot",accountId);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), "Account & Password Incorrect !!!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Please enter Account & Password!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Check login
+    private boolean checkLogin() {
+        listAccount = dbContext.getAllAccountModel();
+        for (AccountModel model : listAccount) {
+            if (edtAccount.getText().toString().equals(model.getUsername())
+                    && edtPassword.getText().toString().equals(model.getPassword())) {
+                accountId = model.getId();
+                if(model.isNeedUpdate()){
+                    notiButtonClicked();
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void notiButtonClicked()  {
+
+        // --------------------------
+        // Chuẩn bị một thông báo
+        // --------------------------
+
+        this.notBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        this.notBuilder.setTicker("This is a ticker");
+
+        // Sét đặt thời điểm sự kiện xẩy ra.
+        // Các thông báo trên Panel được sắp xếp bởi thời gian này.
+        this.notBuilder.setWhen(System.currentTimeMillis()+ 10* 1000);
+        this.notBuilder.setContentTitle("Update your profile");
+        this.notBuilder.setContentText("Your profile is old. You should update your profile ...");
+
+        // Tạo một Intent
+        Intent intent = new Intent(this, LoginActivity.class);
+
+
+        // PendingIntent.getActivity(..) sẽ start mới một Activity và trả về
+        // đối tượng PendingIntent.
+        // Nó cũng tương đương với gọi Context.startActivity(Intent).
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, MY_REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        this.notBuilder.setContentIntent(pendingIntent);
+
+        // Lấy ra dịch vụ thông báo (Một dịch vụ có sẵn của hệ thống).
+        NotificationManager notificationService  =
+                (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Xây dựng thông báo và gửi nó lên hệ thống.
+
+        Notification notification =  notBuilder.build();
+        notificationService.notify(MY_NOTIFICATION_ID, notification);
+
     }
 }

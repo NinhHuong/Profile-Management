@@ -3,7 +3,9 @@ package com.quocngay.profilemanagement.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.quocngay.profilemanagement.DBContext;
 import com.quocngay.profilemanagement.R;
@@ -33,6 +35,13 @@ public class ViewStudentOfClassActivity extends AppCompatActivity {
             studentOfClassList = new ArrayList<>();
         ListViewStudentAdapter listViewStudentAdapter = new ListViewStudentAdapter(this, studentOfClassList);
         listView.setAdapter(listViewStudentAdapter);
+
+//        listView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(),""+v.getId(),Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     @Override
