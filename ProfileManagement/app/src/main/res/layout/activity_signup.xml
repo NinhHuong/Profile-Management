@@ -107,6 +107,7 @@
                 android:id="@+id/edt_phonenumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="phone"
                 android:hint="Phone number" />
         </android.support.design.widget.TextInputLayout>
 

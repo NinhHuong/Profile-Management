@@ -16,7 +16,7 @@ public class SubjectModel extends RealmObject {
     private String code;
     private int credit;
 
-    public static SubjectModel create(int id, String name, String code, int credit) {
+    public static SubjectModel create(int id, String code, String name, int credit) {
         SubjectModel subjectModel = new SubjectModel();
         subjectModel.id = id;
         subjectModel.name = name;
@@ -26,7 +26,7 @@ public class SubjectModel extends RealmObject {
         return subjectModel;
     }
 
-    public static SubjectModel createWithoutId(String name, String code, int credit) {
+    public static SubjectModel createWithoutId(String code, String name, int credit) {
         SubjectModel subjectModel = new SubjectModel();
         DBContext dbContext = DBContext.getInst();
         subjectModel.id = dbContext.getMaxSubjectModelId() + 1;

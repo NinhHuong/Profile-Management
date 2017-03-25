@@ -44,41 +44,55 @@ public class SignupActivity extends Activity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder b = new AlertDialog.Builder(SignupActivity.this);
+                if(edtAccount.getText().toString().trim().length() > 0 &&
+                        edtPassword.getText().toString().trim().length() > 0 &&
+                        edtPhoneNumber.getText().toString().trim().length() > 0) {
+                    AlertDialog.Builder b = new AlertDialog.Builder(SignupActivity.this);
 
-                b.setTitle("Create Account");
-                b.setMessage("Are you sure you want to create account");
-                b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        int id = dbContext.getMaxClassId()+1;
-                        accountModel = AccountModel.create(
-                                id,
-                                edtAccount.getText().toString(),
-                                edtPassword.getText().toString(),
-                                edtFirstname.getText().toString(),
-                                edtLastname.getText().toString(),
-                                1,
-                                edtAddress.getText().toString(),
-                                edtPhoneNumber.getText().toString(),
-                                edtRollNumber.getText().toString(),
-                                edtEmail.getText().toString(),
-                                1,
-                                "",
-                                false);
-                        dbContext.addAccountModel(accountModel);
-                        Log.v("data",dbContext.getAccountModelByID(id).toString());
-                        finish();
-                    }
-                });
-                b.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                b.create().show();
-
+                    b.setTitle("Create Account");
+                    b.setMessage("Are you sure you want to create account");
+                    b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            int id = dbContext.getMaxClassId()+1;
+                            accountModel = AccountModel.create(
+                                    id,
+                                    edtAccount.getText().toString(),
+                                    edtPassword.getText().toString(),
+                                    edtFirstname.getText().toString(),
+                                    edtLastname.getText().toString(),
+                                    1,
+                                    edtAddress.getText().toString(),
+                                    edtPhoneNumber.getText().toString(),
+                                    edtRollNumber.getText().toString(),
+                                    edtEmail.getText().toString(),
+                                    1,
+                                    "",
+                                    false);
+                            dbContext.addAccountModel(accountModel);
+                            Log.v("data",dbContext.getAccountModelByID(id).toString());
+                            finish();
+                        }
+                    });
+                    b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    b.create().show();
+                } else {
+                    AlertDialog.Builder b = new AlertDialog.Builder(SignupActivity.this);
+                    b.setTitle("Create Account");
+                    b.setMessage("Please add your username, password and phonenumber to create account");
+                    b.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    b.create().show();
+                }
             }
         });
     }

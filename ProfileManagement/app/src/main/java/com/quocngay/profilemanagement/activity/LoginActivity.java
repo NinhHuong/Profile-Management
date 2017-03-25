@@ -101,6 +101,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         AccountModel tea1 = AccountModel.createWithoutId("anhbn", "anhbn", "Anh", "Bui Ngoc", Constanst.KEY_GENDER_MALE, "Hanoi",
                 "0123456789", "XYZ", "anhbn@fpt.edu.vn", Constanst.KEY_ROLL_TEACHER, BitMapToString(anhbn), false);
         dbContext.addAccountModel(tea1);
+        AccountModel tea2 = AccountModel.createWithoutId("hiendt", "hiendt", "Hien", "Doan Thu", Constanst.KEY_GENDER_FEMALE, "Hanoi",
+                "0123456789", "XYZ", "anhbn@fpt.edu.vn", Constanst.KEY_ROLL_TEACHER, null, false);
+        dbContext.addAccountModel(tea2);
         AccountModel ad1 = AccountModel.createWithoutId("canhhl", "canhhl", "Canh", "Hoa La", Constanst.KEY_GENDER_FEMALE, "Hanoi",
                 "0123456789", "XYZ", "canhhl@fpt.edu.vn", Constanst.KEY_ROLL_ADMIN, null, false);
         dbContext.addAccountModel(ad1);
@@ -128,6 +131,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         //subject of class
         SubjectOfClassModel subOfClass1 = SubjectOfClassModel.createWithoutId(sub1, class1, tea1);
         dbContext.addSubjectOfClassModel(subOfClass1);
+        SubjectOfClassModel subOfClass2 = SubjectOfClassModel.createWithoutId(sub2, class1, tea2);
+        dbContext.addSubjectOfClassModel(subOfClass2);
         //student of class
         StudentOfClassModel stuClass1 = StudentOfClassModel.createWithoutId(subOfClass1, stu1);
         dbContext.addStudentOfClass(stuClass1);
@@ -135,6 +140,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         dbContext.addStudentOfClass(stuClass2);
         StudentOfClassModel stuClass3 = StudentOfClassModel.createWithoutId(subOfClass1, stu3);
         dbContext.addStudentOfClass(stuClass3);
+        //
+        StudentOfClassModel stuClass4 = StudentOfClassModel.createWithoutId(subOfClass2, stu1);
+        dbContext.addStudentOfClass(stuClass4);
     }
 
     private String BitMapToString(Bitmap bitmap) {
