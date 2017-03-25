@@ -24,7 +24,8 @@
         <activity
             android:name=".activity.EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.SignupActivity"></activity>
     </application>
 
 </manifest>
