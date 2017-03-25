@@ -29,22 +29,18 @@ public class ListViewClassAdapter extends BaseAdapter {
     private Context context;
     private int role;
 
-    public ListViewClassAdapter(Context context, List<SubjectOfClassModel> list) {
+    public ListViewClassAdapter(Context context, List<SubjectOfClassModel> list, int role) {
         if (list != null) {
             this.list = list;
         } else {
             this.list = new ArrayList<>();
         }
         this.context = context;
+        this.role = role;
         this.inflater = LayoutInflater.from(context);
 
         //if account is teacher => hightlight class name
         role = 2;
-//        DBContext dbContext = DBContext.getInst();
-//        List<AccountModel> accountList = dbContext.getAllAccount();
-//        if(accountList != null && accountList.size() > 0) {
-//            role = accountList.get(0).getRoll();
-//        }
     }
 
     @Override

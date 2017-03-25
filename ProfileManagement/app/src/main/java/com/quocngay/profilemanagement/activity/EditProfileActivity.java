@@ -1,10 +1,13 @@
 package com.quocngay.profilemanagement.activity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -58,8 +61,6 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSaveProfile = (Button) findViewById(R.id.btn_save_profile);
         imgAvatar = (ImageView) findViewById(R.id.image_avatar);
 
-
-        //Log.v("image",accountModel.getPhoto());
         imgAvatar.setImageBitmap(StringToBitMap(accountModel.getPhoto()));
         txtUsername.setText(accountModel.getUsername());
         edtFirstName.setText(accountModel.getFirstname());
@@ -72,23 +73,42 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AccountModel model = AccountModel.create(
-                        accountModel.getId(),
-                        accountModel.getUsername(),
-                        accountModel.getPassword(),
-                        edtFirstName.getText().toString(),
-                        edtLastName.getText().toString(),
-                        accountModel.getGender(),
-                        edtAdress.getText().toString(),
-                        edtPhoneNumber.getText().toString(),
-                        accountModel.getRollNumber(),
-                        accountModel.getEmail(),
-                        accountModel.getRole(),
-                        accountModel.getPhoto(),
-                        false);
-                dbContext.addAccountModel(model);
-                Log.v("dataedit",dbContext.getAccountModelByID(accountIdRoot).toString());
+                if(accountModel.isNeedUpdate()
+                        && accountModel.getPhoneNumber().equals(edtPhoneNumber.getText().toString().trim())) {
+                    showMessage("Save profile", "Your phone number is expired.\n Please update new phone number.");
+                } else {
+                    AccountModel model = AccountModel.create(
+                            accountModel.getId(),
+                            accountModel.getUsername(),
+                            accountModel.getPassword(),
+                            edtFirstName.getText().toString().trim(),
+                            edtLastName.getText().toString().trim(),
+                            accountModel.getGender(),
+                            edtAdress.getText().toString().trim(),
+                            edtPhoneNumber.getText().toString().trim(),
+                            accountModel.getRollNumber(),
+                            accountModel.getEmail(),
+                            accountModel.getRole(),
+                            accountModel.getPhoto(),
+                            false);
+                    dbContext.addAccountModel(model);
 
+                    AlertDialog.Builder b = new AlertDialog.Builder(EditProfileActivity.this);
+                    b.setTitle("Save profile");
+                    b.setMessage("Your profile saved successfully");
+                    b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
+                            intent.putExtra("accountIdRoot", accountIdRoot);
+                            intent.putExtra("accountIdView",accountIdRoot);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    b.create().show();
+                }
+                Log.v("dataedit",dbContext.getAccountModelByID(accountIdRoot).toString());
             }
         });
 
@@ -121,6 +141,14 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showMessage(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", null);
+        builder.show();
     }
 
 }

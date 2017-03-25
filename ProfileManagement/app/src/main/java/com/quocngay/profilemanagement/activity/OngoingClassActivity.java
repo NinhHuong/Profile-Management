@@ -29,20 +29,20 @@ public class OngoingClassActivity extends AppCompatActivity {
     private List<SemesterModel> semesterList;
     private List<SubjectOfClassModel> subjectOfClassModelList;
     private SemesterModel semesterModel;
-
     private int accountIdRoot;
+    private int role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ongoing_class);
-        //accId Root
-        accountIdRoot = getIntent().getExtras().getInt("accountIdRoot");
-
-        lvClass = (ListView) findViewById(R.id.lv_class);
-        spnSemester = (Spinner) findViewById(R.id.spn_semester);
         //
         dbContext = DBContext.getInst();
+        //accId Root
+        accountIdRoot = getIntent().getIntExtra("accountIdRoot", -1);
+        role = dbContext.getAccountModelByID(accountIdRoot).getRole();
+        lvClass = (ListView) findViewById(R.id.lv_class);
+        spnSemester = (Spinner) findViewById(R.id.spn_semester);
         //semester
         semesterList = dbContext.getAllSemesterModel();
         if(semesterList != null && semesterList.size() > 0) {
@@ -60,7 +60,8 @@ public class OngoingClassActivity extends AppCompatActivity {
                     semesterModel = spinnerAdapter.getItem(i);
                     //update data//
                     subjectOfClassModelList = dbContext.getSubjectOfClassModelsBySemesterId(semesterModel.getId());
-                    ListViewClassAdapter listViewClassAdapter = new ListViewClassAdapter(OngoingClassActivity.this, subjectOfClassModelList);
+
+                    ListViewClassAdapter listViewClassAdapter = new ListViewClassAdapter(OngoingClassActivity.this, subjectOfClassModelList, role);
                     lvClass.setAdapter(listViewClassAdapter);
                 }
 
@@ -72,7 +73,7 @@ public class OngoingClassActivity extends AppCompatActivity {
 
             //
             subjectOfClassModelList = dbContext.getSubjectOfClassModelsBySemesterId(semesterModel.getId());
-            ListViewClassAdapter listViewClassAdapter = new ListViewClassAdapter(this, subjectOfClassModelList);
+            ListViewClassAdapter listViewClassAdapter = new ListViewClassAdapter(this, subjectOfClassModelList, role);
             lvClass.setAdapter(listViewClassAdapter);
         }
     }

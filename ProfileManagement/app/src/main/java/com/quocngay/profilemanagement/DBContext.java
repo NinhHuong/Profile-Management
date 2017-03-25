@@ -51,6 +51,10 @@ public class DBContext {
         return realm.where(AccountModel.class).findAll();
     }
 
+    public AccountModel getLoginAccount(String username, String password) {
+        return realm.where(AccountModel.class).equalTo("username", username).equalTo("password", password).findFirst();
+    }
+
     public AccountModel getAccountModelByID(int id) {
         return realm.where(AccountModel.class).equalTo("id", id).findFirst();
     }

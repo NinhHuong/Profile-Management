@@ -38,7 +38,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private DBContext dbContext;
     private List<AccountModel> listAccount;
-    private int accountId = 0;
 
     private NotificationCompat.Builder notBuilder;
 
@@ -79,49 +78,51 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         Calendar c2 = Calendar.getInstance();
         //account
         Bitmap tuanna = BitmapFactory.decodeResource(getResources(), R.drawable.tuanna);
-        AccountModel stu1 = AccountModel.create(1, "tuanna", "tuanna", "Tuan", "Nguyen Anh", Constanst.KEY_GENDER_MALE, "Hanoi",
+        AccountModel stu1 = AccountModel.createWithoutId("tuanna", "tuanna", "Tuan", "Nguyen Anh", Constanst.KEY_GENDER_MALE, "Hanoi",
                 "0123456789", "SE01234", "tuannase01234@fpt.edu.vn", Constanst.KEY_ROLL_STUDENT, BitMapToString(tuanna), false);
-        Bitmap sidq = BitmapFactory.decodeResource(getResources(), R.drawable.sidq);
-        AccountModel stu2 = AccountModel.create(2, "sidq", "sidq", "Si", "Nguyen Quang", Constanst.KEY_GENDER_MALE, "Hanoi",
-                "0123456789", "SE01235", "sidqse01235@fpt.edu.vn", Constanst.KEY_ROLL_STUDENT, BitMapToString(sidq), false);
-        Bitmap longhd = BitmapFactory.decodeResource(getResources(), R.drawable.longhd);
-        AccountModel stu3 = AccountModel.create(3, "longhd", "longhd", "Long", "Hoang Duc", Constanst.KEY_GENDER_MALE, "Hanoi",
-                "0123456789", "SE01236", "longhdse01236@fpt.edu.vn", Constanst.KEY_ROLL_STUDENT, BitMapToString(longhd), false);
-        AccountModel tea1 = AccountModel.create(4, "anhbn", "anhbn", "Anh", "Bui Ngoc", Constanst.KEY_GENDER_MALE, "Hanoi",
-                "0123456789", "XYZ", "anhbn@fpt.edu.vn", Constanst.KEY_ROLL_TEACHER, null, false);
         dbContext.addAccountModel(stu1);
+        Bitmap sidq = BitmapFactory.decodeResource(getResources(), R.drawable.sidq);
+        AccountModel stu2 = AccountModel.createWithoutId("sidq", "sidq", "Si", "Nguyen Quang", Constanst.KEY_GENDER_MALE, "Hanoi",
+                "0123456789", "SE01235", "sidqse01235@fpt.edu.vn", Constanst.KEY_ROLL_STUDENT, BitMapToString(sidq), false);
         dbContext.addAccountModel(stu2);
+        Bitmap longhd = BitmapFactory.decodeResource(getResources(), R.drawable.longhd);
+        AccountModel stu3 = AccountModel.createWithoutId("longhd", "longhd", "Long", "Hoang Duc", Constanst.KEY_GENDER_MALE, "Hanoi",
+                "0123456789", "SE01236", "longhdse01236@fpt.edu.vn", Constanst.KEY_ROLL_STUDENT, BitMapToString(longhd), false);
+        dbContext.addAccountModel(stu3);
+        Bitmap anhbn = BitmapFactory.decodeResource(getResources(), R.drawable.anhbn);
+        AccountModel tea1 = AccountModel.createWithoutId("anhbn", "anhbn", "Anh", "Bui Ngoc", Constanst.KEY_GENDER_MALE, "Hanoi",
+                "0123456789", "XYZ", "anhbn@fpt.edu.vn", Constanst.KEY_ROLL_TEACHER, BitMapToString(anhbn), false);
         dbContext.addAccountModel(tea1);
         //semester
         c.set(2016, 9, 1);
         c2.set(2017, 12, 31);
-        SemesterModel ses1 = SemesterModel.create(1, "Fall 2016", c.getTime(), c2.getTime());
+        SemesterModel ses1 = SemesterModel.createWithoutId("Fall 2016", c.getTime(), c2.getTime());
+        dbContext.addSemesterModel(ses1);
         c.set(2017, 1, 5);
         c.set(2017, 5, 5);
-        SemesterModel ses2 = SemesterModel.create(2, "Spring 2017", c.getTime(), c2.getTime());
-        dbContext.addSemesterModel(ses1);
+        SemesterModel ses2 = SemesterModel.createWithoutId("Spring 2017", c.getTime(), c2.getTime());
         dbContext.addSemesterModel(ses2);
         //temp class
-        ClassModel class1 = ClassModel.create(5, "ES20102", ses1);
+        ClassModel class1 = ClassModel.createWithoutId("ES20102", ses1);
         dbContext.addClass(class1);
         //subject
-        SubjectModel sub1 = SubjectModel.create(2, "ESS", "Embed System", 3);
-        SubjectModel sub2 = SubjectModel.create(3, "SSC", "Soft Skill Comunication",3);
-        SubjectModel sub3 = SubjectModel.create(4, "SPM", "Software Project Management",3);
-        SubjectModel sub4 = SubjectModel.create(5, "VNR", "Vietnam Revolution",3);
+        SubjectModel sub1 = SubjectModel.createWithoutId("ESS", "Embedded System", 3);
         dbContext.addSubjectModel(sub1);
+        SubjectModel sub2 = SubjectModel.createWithoutId("SSC", "Soft Skill Comunication",3);
         dbContext.addSubjectModel(sub2);
+        SubjectModel sub3 = SubjectModel.createWithoutId("SPM", "Software Project Management",3);
         dbContext.addSubjectModel(sub3);
+        SubjectModel sub4 = SubjectModel.createWithoutId("VNR", "Vietnam Revolution",3);
         dbContext.addSubjectModel(sub4);
         //subject of class
-        SubjectOfClassModel subOfClass1 = SubjectOfClassModel.create(1, sub1, class1, tea1);
+        SubjectOfClassModel subOfClass1 = SubjectOfClassModel.createWithoutId(sub1, class1, tea1);
         dbContext.addSubjectOfClassModel(subOfClass1);
         //student of class
-        StudentOfClassModel stuClass1 = StudentOfClassModel.create(1, subOfClass1, stu1);
-        StudentOfClassModel stuClass2 = StudentOfClassModel.create(2, subOfClass1, stu2);
-        StudentOfClassModel stuClass3 = StudentOfClassModel.create(3, subOfClass1, stu3);
+        StudentOfClassModel stuClass1 = StudentOfClassModel.createWithoutId(subOfClass1, stu1);
         dbContext.addStudentOfClass(stuClass1);
+        StudentOfClassModel stuClass2 = StudentOfClassModel.createWithoutId(subOfClass1, stu2);
         dbContext.addStudentOfClass(stuClass2);
+        StudentOfClassModel stuClass3 = StudentOfClassModel.createWithoutId(subOfClass1, stu3);
         dbContext.addStudentOfClass(stuClass3);
     }
 
@@ -157,13 +158,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     private void onClickLogin() {
-        String account = edtAccount.getText().toString();
-        String password = edtPassword.getText().toString();
+        String account = edtAccount.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
         if (!account.isEmpty() && !password.isEmpty()) {
-            if (checkLogin()) {
+            AccountModel acc = dbContext.getLoginAccount(account, password);
+            if (acc != null) {
+                if(acc.isNeedUpdate())
+                    notiButtonClicked(acc.getId());
                 Intent intent = new Intent(this, OngoingClassActivity.class);
-                //intent.putExtra("accountIdView",accountId);
-                intent.putExtra("accountIdRoot",accountId);
+                intent.putExtra("accountIdRoot", acc.getId());
                 startActivity(intent);
             } else {
                 Toast.makeText(getApplicationContext(), "Account & Password Incorrect !!!", Toast.LENGTH_SHORT).show();
@@ -173,23 +176,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    //Check login
-    private boolean checkLogin() {
-        listAccount = dbContext.getAllAccountModel();
-        for (AccountModel model : listAccount) {
-            if (edtAccount.getText().toString().equals(model.getUsername())
-                    && edtPassword.getText().toString().equals(model.getPassword())) {
-                accountId = model.getId();
-                if(model.isNeedUpdate()){
-                    notiButtonClicked();
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void notiButtonClicked()  {
+    public void notiButtonClicked(int accId)  {
 
         // --------------------------
         // Chuẩn bị một thông báo
@@ -198,19 +185,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         this.notBuilder.setSmallIcon(R.mipmap.ic_launcher);
         this.notBuilder.setTicker("This is a ticker");
 
-        // Sét đặt thời điểm sự kiện xẩy ra.
-        // Các thông báo trên Panel được sắp xếp bởi thời gian này.
         this.notBuilder.setWhen(System.currentTimeMillis()+ 10* 1000);
         this.notBuilder.setContentTitle("Update your profile");
         this.notBuilder.setContentText("Your profile is old. You should update your profile ...");
 
         // Tạo một Intent
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, EditProfileActivity.class);
+        intent.putExtra("accountIdRoot", accId);
 
-
-        // PendingIntent.getActivity(..) sẽ start mới một Activity và trả về
-        // đối tượng PendingIntent.
-        // Nó cũng tương đương với gọi Context.startActivity(Intent).
         PendingIntent pendingIntent = PendingIntent.getActivity(this, MY_REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
