@@ -6,7 +6,9 @@ import com.quocngay.profilemanagement.model.SemesterModel;
 import com.quocngay.profilemanagement.model.StudentOfClassModel;
 import com.quocngay.profilemanagement.model.SubjectModel;
 import com.quocngay.profilemanagement.model.SubjectOfClassModel;
+import com.quocngay.profilemanagement.other.Constanst;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,6 +51,10 @@ public class DBContext {
 
     public List<AccountModel> getAllAccountModel(){
         return realm.where(AccountModel.class).findAll();
+    }
+
+    public List<AccountModel> getAllStudent(){
+        return realm.where(AccountModel.class).equalTo("role", Constanst.KEY_ROLL_STUDENT).findAll();
     }
 
     public AccountModel getLoginAccount(String username, String password) {
@@ -231,6 +237,24 @@ public class DBContext {
 
     public List<SubjectOfClassModel> getSubjectOfClassModelsBySemesterId(int id){
         return realm.where(SubjectOfClassModel.class).equalTo("classModel.semesterModel.id", id).findAll();
+    }
+
+    public List<SubjectOfClassModel> getSubjectOfClassModelsBySemesterIdTeacherId(int semesterId, int teacherId){
+        return realm.where(SubjectOfClassModel.class).equalTo("classModel.semesterModel.id", semesterId)
+                .equalTo("accountModel.id", teacherId).findAll();
+    }
+
+    public List<SubjectOfClassModel> getSubjectOfClassModelsBySemesterIdStudentId(int semesterId, int studentId){
+        List<StudentOfClassModel> list =  realm.where(StudentOfClassModel.class).equalTo("subjectOfClassModel.classModel.semesterModel.id", semesterId)
+                .equalTo("accountModel.id", studentId).findAll();
+        if(list != null && list.size() > 0) {
+            List<SubjectOfClassModel> listSub = new ArrayList<>();
+            for(StudentOfClassModel stu : list) {
+                listSub.add(stu.getSubjectOfClassModel());
+            }
+            return listSub;
+        }
+        return null;
     }
 
     public List<SubjectOfClassModel> getAllSubjectOfClassModel(){

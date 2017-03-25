@@ -16,10 +16,13 @@ import com.quocngay.profilemanagement.DBContext;
 import com.quocngay.profilemanagement.R;
 import com.quocngay.profilemanagement.model.SemesterModel;
 import com.quocngay.profilemanagement.model.SubjectOfClassModel;
+import com.quocngay.profilemanagement.other.Constanst;
 import com.quocngay.profilemanagement.other.ListViewClassAdapter;
 import com.quocngay.profilemanagement.other.SemesterSpinnerAdapter;
 
 import java.util.List;
+
+import static com.quocngay.profilemanagement.other.Constanst.*;
 
 public class OngoingClassActivity extends AppCompatActivity {
 
@@ -59,7 +62,13 @@ public class OngoingClassActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     semesterModel = spinnerAdapter.getItem(i);
                     //update data//
-                    subjectOfClassModelList = dbContext.getSubjectOfClassModelsBySemesterId(semesterModel.getId());
+                    if(role == Constanst.KEY_ROLL_TEACHER) {
+                        subjectOfClassModelList = dbContext.getSubjectOfClassModelsBySemesterIdTeacherId(semesterModel.getId(), accountIdRoot);
+                    } else if(role == Constanst.KEY_ROLL_STUDENT) {
+                        subjectOfClassModelList = dbContext.getSubjectOfClassModelsBySemesterIdStudentId(semesterModel.getId(), accountIdRoot);
+                    } else if(role == Constanst.KEY_ROLL_ADMIN) {
+                        subjectOfClassModelList = dbContext.getSubjectOfClassModelsBySemesterId(semesterModel.getId());
+                    }
 
                     ListViewClassAdapter listViewClassAdapter = new ListViewClassAdapter(OngoingClassActivity.this, subjectOfClassModelList, role);
                     lvClass.setAdapter(listViewClassAdapter);

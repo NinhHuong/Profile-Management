@@ -89,10 +89,16 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         AccountModel stu3 = AccountModel.createWithoutId("longhd", "longhd", "Long", "Hoang Duc", Constanst.KEY_GENDER_MALE, "Hanoi",
                 "0123456789", "SE01236", "longhdse01236@fpt.edu.vn", Constanst.KEY_ROLL_STUDENT, BitMapToString(longhd), false);
         dbContext.addAccountModel(stu3);
+        AccountModel stu4 = AccountModel.createWithoutId("huongntm", "huongntm", "Huong", "Ninh", Constanst.KEY_GENDER_FEMALE, "Hanoi",
+                "0123456789", "SE01237", "huongntm01237@fpt.edu.vn", Constanst.KEY_ROLL_STUDENT, null, false);
+        dbContext.addAccountModel(stu4);
         Bitmap anhbn = BitmapFactory.decodeResource(getResources(), R.drawable.anhbn);
         AccountModel tea1 = AccountModel.createWithoutId("anhbn", "anhbn", "Anh", "Bui Ngoc", Constanst.KEY_GENDER_MALE, "Hanoi",
                 "0123456789", "XYZ", "anhbn@fpt.edu.vn", Constanst.KEY_ROLL_TEACHER, BitMapToString(anhbn), false);
         dbContext.addAccountModel(tea1);
+        AccountModel ad1 = AccountModel.createWithoutId("canhhl", "canhhl", "Canh", "Hoa La", Constanst.KEY_GENDER_FEMALE, "Hanoi",
+                "0123456789", "XYZ", "canhhl@fpt.edu.vn", Constanst.KEY_ROLL_ADMIN, null, false);
+        dbContext.addAccountModel(ad1);
         //semester
         c.set(2016, 9, 1);
         c2.set(2017, 12, 31);

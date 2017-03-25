@@ -88,8 +88,9 @@ public class ListViewClassAdapter extends BaseAdapter {
 
             holder.tvClassName.setOnClickListener( new View.OnClickListener() {
                 public void onClick(View v) {
-                    if(role == Constanst.KEY_ROLL_TEACHER) {
+                    if(role == Constanst.KEY_ROLL_TEACHER || role == Constanst.KEY_ROLL_ADMIN) {
                         Intent intent = new Intent(context, ViewStudentOfClassActivity.class);
+                        intent.putExtra("role", role);
                         intent.putExtra("subclassId", list.get(position).getId());
                         context.startActivity(intent);
                     }
@@ -107,7 +108,7 @@ public class ListViewClassAdapter extends BaseAdapter {
         holder.tvCredit.setText(String.valueOf(model.getSubjectModel().getCredit()));//
         holder.tvStart.setText(Constanst.KEY_DATE_FORMAT.format(model.getClassModel().getSemesterModel().getStartDate()));
         holder.tvEnd.setText(Constanst.KEY_DATE_FORMAT.format(model.getClassModel().getSemesterModel().getEndDate()));
-        if(role == Constanst.KEY_ROLL_TEACHER)
+        if(role == Constanst.KEY_ROLL_TEACHER || role == Constanst.KEY_ROLL_ADMIN)
             holder.tvClassName.setTextColor(context.getResources().getColor(R.color.text_link));
 
         return convertView;

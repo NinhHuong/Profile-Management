@@ -14,24 +14,24 @@ public class SubjectOfClassModel extends RealmObject {
     private int id;
     private SubjectModel subjectModel;
     private ClassModel classModel;
-    private AccountModel AccountModel;
+    private AccountModel accountModel;
 
-    public static SubjectOfClassModel create(int id, SubjectModel subjectModel, ClassModel classModel, AccountModel AccountModel) {
+    public static SubjectOfClassModel create(int id, SubjectModel subjectModel, ClassModel classModel, AccountModel accountModel) {
         SubjectOfClassModel sub = new SubjectOfClassModel();
         sub.id = id;
         sub.subjectModel= subjectModel;
         sub.classModel = classModel;
-        sub.AccountModel = AccountModel;
+        sub.accountModel = accountModel;
         return sub;
     }
 
-    public static SubjectOfClassModel createWithoutId(SubjectModel subjectModel, ClassModel classModel, AccountModel AccountModel) {
+    public static SubjectOfClassModel createWithoutId(SubjectModel subjectModel, ClassModel classModel, AccountModel accountModel) {
         SubjectOfClassModel sub = new SubjectOfClassModel();
         DBContext dbContext = DBContext.getInst();
         sub.id = dbContext.getMaxSubjectOfClassModelId() + 1;
         sub.subjectModel= subjectModel;
         sub.classModel = classModel;
-        sub.AccountModel = AccountModel;
+        sub.accountModel = accountModel;
         return sub;
     }
 
@@ -43,8 +43,8 @@ public class SubjectOfClassModel extends RealmObject {
         this.classModel = classModel;
     }
 
-    public void setAccountModel(AccountModel AccountModel) {
-        this.AccountModel = AccountModel;
+    public void setAccountModel(AccountModel accountModel) {
+        this.accountModel = accountModel;
     }
 
     public int getId() {
@@ -64,6 +64,6 @@ public class SubjectOfClassModel extends RealmObject {
     }
 
     public AccountModel getAccountModel() {
-        return AccountModel;
+        return accountModel;
     }
 }

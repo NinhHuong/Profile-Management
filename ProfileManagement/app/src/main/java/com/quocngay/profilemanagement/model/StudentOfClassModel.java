@@ -34,6 +34,14 @@ public class StudentOfClassModel extends RealmObject {
         return studentOfClassModel;
     }
 
+    public void setSubjectOfClassModel(SubjectOfClassModel subjectOfClassModel) {
+        this.subjectOfClassModel = subjectOfClassModel;
+    }
+
+    public SubjectOfClassModel getSubjectOfClassModel() {
+        return subjectOfClassModel;
+    }
+
     public int getId() {
         return id;
     }
@@ -42,16 +50,8 @@ public class StudentOfClassModel extends RealmObject {
         this.id = id;
     }
 
-    public SubjectOfClassModel getClassModel() {
-        return subjectOfClassModel;
-    }
-
     public AccountModel getAccountModel() {
         return accountModel;
-    }
-
-    public void setClassModel(SubjectOfClassModel subjectOfClassModel) {
-        this.subjectOfClassModel = subjectOfClassModel;
     }
 
     public void setAccountModel(AccountModel accountModel) {
