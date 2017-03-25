@@ -14,6 +14,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quocngay.profilemanagement.DBContext;
@@ -35,6 +36,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private Button btnLogin;
     private EditText edtAccount, edtPassword;
+
+    private TextView btnSignup;
 
     private DBContext dbContext;
     private List<AccountModel> listAccount;
@@ -64,9 +67,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         btnLogin = (Button) findViewById(R.id.btn_login);
         edtAccount = (EditText) findViewById(R.id.edt_account);
         edtPassword = (EditText) findViewById(R.id.edt_password);
+        btnSignup =(TextView)findViewById(R.id.link_signup);
 
         //event
         btnLogin.setOnClickListener(this);
+        btnSignup.setOnClickListener(this);
 
         dbContext = DBContext.getInst();
         listAccount = new ArrayList<>();
@@ -159,6 +164,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             case R.id.btn_login:
                 onClickLogin();
                 break;
+            case R.id.link_signup:
+                Intent intent = new Intent(this, SignupActivity.class);
+                startActivity(intent);
             default:
         }
     }
